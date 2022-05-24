@@ -28,7 +28,7 @@ class Optimizer:
                 print("Swiching to NSGA-II sampler for multi-objective optimization")
                 self.sampler = optuna.samplers.NSGAIISampler()
         
-        else:  #(len(objectives == 1))
+        else:  #(len(objectives) == 1)
             if cfg.SAMPLER == 'GRID':
                 self.sampler = optuna.samplers.GridSampler()
 
@@ -44,8 +44,6 @@ class Optimizer:
             else: 
                 print("Using default TPE sampler")
                 self.sampler = optuna.samplers.TPESampler()
-
-
 
         if cfg.STORAGE_NAME:
             self.study = optuna.create_study(study_name=cfg.STUDY_NAME, storage=cfg.STORAGE_NAME, load_if_exists=True, directions=objectives.directions, sampler = self.sampler)
