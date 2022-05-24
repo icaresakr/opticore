@@ -30,12 +30,10 @@ if __name__ == "__main__":
 
     objectives = obj.Objective()
 
-    optimizer = opt.Optimizer(study_name = cfg.STUDY_NAME, 
+    optimizer = opt.Optimizer(
                     cfg = cfg, 
-                    objectives = objectives, 
-                    sampler = 'NSGAII', 
-                    storage_name = cfg.STORAGE_NAME)
-
+                    objectives = objectives
+                    )
 
     optimizer.optimize(n_trials = cfg.N_TRIALS)
     optimizer.show_pareto()

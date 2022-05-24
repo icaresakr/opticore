@@ -7,28 +7,28 @@
 import optuna
 
 class Optimizer:
-    def __init__(self, study_name, cfg, objectives, sampler = 'NSGAII', storage_name = None):
+    def __init__(self, cfg, objectives):
 
         assert len(objectives) > 0
 
         self.cfg = cfg
 
-        self.study_name = study_name
+        self.study_name = cfg.STUDY_NAME
         self.objectives = objectives
         self.n_objectives = len(objectives)
 
-        if sampler == 'NSGAII' or len(objectives) > 1:
+        if cfg.SAMPLER == 'NSGAII' or len(objectives) > 1:
             print("Using NSGA-II sampler multi-objective optimization")
             self.sampler = optuna.samplers.NSGAIISampler()
         
         else:
             self.sampler = optuna.samplers.TPMESampler()
 
-        if storage_name:
-            self.study = optuna.create_study(study_name=study_name, storage=storage_name, load_if_exists=True, directions=objectives.directions, sampler = self.sampler)
+        if cfg.STORAGE_NAME:
+            self.study = optuna.create_study(study_name=cfg.STUDY_NAME, storage=cfg.STORAGE_NAME, load_if_exists=True, directions=objectives.directions, sampler = self.sampler)
         
         else:
-            self.study = optuna.create_study(study_name=study_name, directions=objectives.directions, sampler = self.sampler)
+            self.study = optuna.create_study(study_name=cfg.STUDY_NAME, directions=objectives.directions, sampler = self.sampler)
 
     def __suggest_variables(self, trial):
         try:
