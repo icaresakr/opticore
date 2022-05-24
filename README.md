@@ -1,5 +1,5 @@
 # opticore
-Multi-objective optimization core
+Multi-objective optimization core, does it make sense?
 
 To run optimization:
 
