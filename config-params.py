@@ -4,11 +4,17 @@
 # © 2022, NeuroRestore
 ###
 
-# STUDY PARAMETERS
-SAMPLER = 'NSGAII' # 'NSGAII'
+## STUDY PARAMETERS
+'''
+optimization method 
+mono-objective samplers: 'GRID', 'RANDOM', 'TPE', 'CMAES'
+multi-objective samplers: 'NSGAII', 'MOTPE'
+'''
+SAMPLER = 'NSGAII'
+
 N_TRIALS = 500 # number of optimization trials
 STUDY_NAME = "example_optimization"
-STORAGE_NAME = "sqlite:///{}.db".format(STUDY_NAME)
+STORAGE_NAME = "sqlite:///{}.db".format(STUDY_NAME) # database to store study information
 
 
 ## VARIABLES TO OPTIMIZE
@@ -16,18 +22,19 @@ VARIABLES = {
 
     'FLOAT_VAR': {
                 'type': 'float',
-                'values': [0., 1.],
-                'step': 0.1 #optional, float 
+                'values': [0., 1.], #values range
+                'step': 0.1 #optional step, float 
                 },
 
     'INT_VAR': {
                 'type': 'int',
-                'values': [0, 10],
+                'values': [0, 10], #values range
+                'step': 1 #optional step, int
                 },
 
     'CATEGORICAL_VAR': {
                 'type': 'categorical',
-                'values': ['None', "'car'"],
+                'values': ['None', "'car'"], #possible values
                 },
 
 }
@@ -41,7 +48,6 @@ CONSTRAINTS = {
 """
 
 LOAD_PATH = ''
-
 SAVE_PATH = ''
 
 ## ADD OTHER PARAMETERS HERE

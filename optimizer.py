@@ -17,12 +17,35 @@ class Optimizer:
         self.objectives = objectives
         self.n_objectives = len(objectives)
 
-        if cfg.SAMPLER == 'NSGAII' or len(objectives) > 1:
-            print("Using NSGA-II sampler multi-objective optimization")
-            self.sampler = optuna.samplers.NSGAIISampler()
+        if len(objectives) > 1:
+            if cfg.SAMPLER == 'NSGAII':
+                self.sampler = optuna.samplers.NSGAIISampler()
+
+            elif cfg.SAMPLER == 'MOTPE':
+                self.sampler = optuna.samplers.MOTPESampler()
+
+            else:
+                print("Swiching to NSGA-II sampler for multi-objective optimization")
+                self.sampler = optuna.samplers.NSGAIISampler()
         
-        else:
-            self.sampler = optuna.samplers.TPMESampler()
+        else:  #(len(objectives == 1))
+            if cfg.SAMPLER == 'GRID':
+                self.sampler = optuna.samplers.GridSampler()
+
+            elif cfg.SAMPLER == 'TPE':
+                self.sampler = optuna.samplers.TPESampler()
+            
+            elif cfg.SAMPLER == 'CMAES':
+                self.sampler = optuna.samplers.CmaEsSampler()
+    
+            elif cfg.SAMPLER == 'RANDOM':
+                self.sampler = optuna.samplers.RandomSampler()
+
+            else: 
+                print("Using default TPE sampler")
+                self.sampler = optuna.samplers.TPESampler()
+
+
 
         if cfg.STORAGE_NAME:
             self.study = optuna.create_study(study_name=cfg.STUDY_NAME, storage=cfg.STORAGE_NAME, load_if_exists=True, directions=objectives.directions, sampler = self.sampler)
