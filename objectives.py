@@ -1,7 +1,9 @@
-"""
-Define objective functions here
+###
+# Define objective functions here
+#
+# © 2022, NeuroRestore
+###
 
-"""
 class Objective:
     def __init__(self, direction = 'minimize'):
         self.direction = direction

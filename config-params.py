@@ -1,4 +1,8 @@
-### OPTIMIZER CONFIGURATION FILE
+###
+# Optimizer configuration file
+#
+# © 2022, NeuroRestore
+###
 
 ## VARIABLES TO OPTIMIZE
 VARIABLES = { 

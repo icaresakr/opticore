@@ -1,3 +1,9 @@
+###
+# Main optimization script
+#
+# © 2022, NeuroRestore
+###
+
 import imp
 import os
 import sys

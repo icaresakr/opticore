@@ -1,3 +1,8 @@
+###
+# Optinizer definition
+#
+# © 2022, NeuroRestore
+###
 
 import optuna
 
