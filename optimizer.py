@@ -17,7 +17,7 @@ class Optimizer:
             self.sampler = optuna.samplers.NSGAIISampler()
         
         else:
-            self.sampler = None
+            self.sampler = optuna.samplers.TPMESampler()
 
         if storage_name:
             self.study = optuna.create_study(study_name=study_name, storage=storage_name, load_if_exists=True, directions=[objectives[i].direction for i in range(self.n_objectives)], sampler = self.sampler)
