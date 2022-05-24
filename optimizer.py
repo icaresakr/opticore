@@ -25,10 +25,10 @@ class Optimizer:
             self.sampler = optuna.samplers.TPMESampler()
 
         if storage_name:
-            self.study = optuna.create_study(study_name=study_name, storage=storage_name, load_if_exists=True, directions=[objectives[i].direction for i in range(self.n_objectives)], sampler = self.sampler)
+            self.study = optuna.create_study(study_name=study_name, storage=storage_name, load_if_exists=True, directions=objectives.directions, sampler = self.sampler)
         
         else:
-            self.study = optuna.create_study(study_name=study_name, directions=[objectives[i].direction for i in range(self.n_objectives)], sampler = self.sampler)
+            self.study = optuna.create_study(study_name=study_name, directions=objectives.directions, sampler = self.sampler)
 
     def __suggest_variables(self, trial):
         try:
@@ -65,7 +65,7 @@ class Optimizer:
         if not params:
             raise(Exception("Error while suggesting variables, probably from config file?"))
         
-        return tuple([objective.evaluate(params) for objective in self.objectives])
+        return self.objectives.evaluate(params)
     
     def optimize(self, n_trials = 500):
         self.study.optimize(self.objective, n_trials)
@@ -77,7 +77,7 @@ class Optimizer:
             print("  Trial#{}".format(trial.number))
             print("    Values:", end= '')
             for i in range(self.n_objectives):
-                print(f" {self.objectives[i].name}: {trial.values[i]}", end='')
+                print(f" {self.objectives.names[i]}: {trial.values[i]}", end='')
                 if i < self.n_objectives - 1:
                     print(f",", end='')
                 else:

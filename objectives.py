@@ -5,36 +5,18 @@
 ###
 
 class Objective:
-    def __init__(self, direction = 'minimize'):
-        self.direction = direction
+    def __init__(self):
+        self.directions = ['minimize','maximize']
+        self.names = ['MSE', 'Accuracy']
+        self.n_targets = len(self.names)
     
-    def evaluate(self, params = None):
-        return 0.0
-
-class Accuracy(Objective):
-    def __init__(self, direction = 'maximize', name = 'Accuracy'):
-        super().__init__(direction)
-        self.name = name
+    def __len__(self):
+        return self.n_targets
     
     def evaluate(self, params = None):
         try: 
-            # Do something
-            return 1.
+            #Do something
+            return (1., 1.)
 
         except:
-            return 0.
-
-class F1score(Objective):
-    def __init__(self, direction = 'maximize', name = 'F1score'):
-        super().__init__(direction)
-        self.name = name
-    
-    def evaluate(self, params = None):
-        try: 
-            # Do something
-            return 1.
-
-        except:
-            return 0.
-    
-
+            return (0., 0.)

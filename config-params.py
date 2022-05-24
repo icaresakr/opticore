@@ -4,6 +4,13 @@
 # © 2022, NeuroRestore
 ###
 
+# STUDY PARAMETERS
+SAMPLER = 'NSGAII' # 'NSGAII'
+N_TRIALS = 500 # number of optimization trials
+STUDY_NAME = "example_optimization"
+STORAGE_NAME = "sqlite:///{}.db".format(STUDY_NAME)
+
+
 ## VARIABLES TO OPTIMIZE
 VARIABLES = { 
 

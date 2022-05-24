@@ -12,12 +12,6 @@ import utils.q_common as qc
 import objectives as obj
 import optimizer as opt
 
-
-STUDY_NAME = "example_optimization"
-STORAGE_NAME = "sqlite:///{}.db".format(STUDY_NAME)
-N_TRIALS = 500
-
-
 def load_config(cfg_file):
     cfg_file = qc.forward_slashify(cfg_file)
     if not (os.path.exists(cfg_file) and os.path.isfile(cfg_file)):
@@ -34,16 +28,16 @@ if __name__ == "__main__":
     
     cfg = load_config(cfg_file)
 
-    objectives = [obj.Accuracy(), obj.F1score()] #NOTE: always a list
+    objectives = obj.Objective()
 
-    optimizer = opt.Optimizer(study_name = STUDY_NAME, 
+    optimizer = opt.Optimizer(study_name = cfg.STUDY_NAME, 
                     cfg = cfg, 
                     objectives = objectives, 
                     sampler = 'NSGAII', 
-                    storage_name = STORAGE_NAME)
+                    storage_name = cfg.STORAGE_NAME)
 
 
-    optimizer.optimize(n_trials = N_TRIALS)
+    optimizer.optimize(n_trials = cfg.N_TRIALS)
     optimizer.show_pareto()
 
     ## Plots
