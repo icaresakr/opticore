@@ -4,7 +4,7 @@
 # © 2022, NeuroRestore
 ###
 
-class Objective:
+class Objectives:
     def __init__(self):
         self.directions = ['minimize','maximize']
         self.names = ['MSE', 'Accuracy']

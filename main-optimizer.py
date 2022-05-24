@@ -28,7 +28,7 @@ if __name__ == "__main__":
     
     cfg = load_config(cfg_file)
 
-    objectives = obj.Objective()
+    objectives = obj.Objectives()
 
     optimizer = opt.Optimizer(
                     cfg = cfg, 
