@@ -65,7 +65,7 @@ class Optimizer:
         if not params:
             raise(Exception("Error while suggesting variables, probably from config file?"))
         
-        return self.objectives.evaluate(params)
+        return self.objectives.evaluate(self.cfg, params)
     
     def optimize(self, n_trials = 500):
         self.study.optimize(self.objective, n_trials)

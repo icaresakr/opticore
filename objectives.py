@@ -13,7 +13,7 @@ class Objectives:
     def __len__(self):
         return self.n_targets
     
-    def evaluate(self, params = None):
+    def evaluate(self, cfg = None, params = None):
         """
             Evaluate objectives based on suggested parameters
 
