@@ -20,8 +20,13 @@ class Objectives:
             params: dict parameters names and values {'param_name': param_value, ...}
         """
         try: 
+            #FIXME: define objectives here
             #Do something
-            return (1., 1.)
+            #e.g.
+            obj1 = params['INT_VAR']**2 + params['FLOAT_VAR']
+            obj2 =  params['INT_VAR'] * params['FLOAT_VAR']**2 * (params['CATEGORICAL_VAR'] == 'None')
+
+            return (obj1, obj2)
 
         except:
             return (0., 0.)
