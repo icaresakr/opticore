@@ -28,10 +28,7 @@ if __name__ == "__main__":
     
     cfg = load_config(cfg_file)
 
-    objective1 = obj.Accuracy()
-    objective2 = obj.F1score()
-
-    objectives = [objective1, objective2]
+    objectives = [obj.Accuracy(), obj.F1score()] #NOTE: always a list
 
     optimizer = opt.Optimizer(study_name = STUDY_NAME, 
                     cfg = cfg, 
@@ -39,11 +36,12 @@ if __name__ == "__main__":
                     sampler = 'NSGAII', 
                     storage_name = STORAGE_NAME)
 
-    try:
-        optimizer.optimize(n_trials = N_TRIALS)
 
-    except:
-        print("Error occured, aborted.")
+    optimizer.optimize(n_trials = N_TRIALS)
+    optimizer.show_pareto()
+
+    ## Plots
+
 
 
 

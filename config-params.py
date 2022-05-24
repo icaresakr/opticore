@@ -12,7 +12,6 @@ VARIABLES = {
     'INT_VAR': {
                 'type': 'int',
                 'values': [0, 10],
-                'step': None #optional, int
                 },
 
     'CATEGORICAL_VAR': {
