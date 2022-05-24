@@ -14,6 +14,11 @@ class Objectives:
         return self.n_targets
     
     def evaluate(self, params = None):
+        """
+            Evaluate objectives based on suggested parameters
+
+            params: dict parameters names and values {'param_name': param_value, ...}
+        """
         try: 
             #Do something
             return (1., 1.)
