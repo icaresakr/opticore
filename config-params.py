@@ -40,16 +40,7 @@ VARIABLES = {
 
 }
 
-
-
 USE_CONSTRAINTS = True
-
-""" Not implemented yet
-CONSTRAINTS = {
-    1: "'FLOAT_VAR' < 'INT_VAR'"
-
-}
-"""
 
 LOAD_PATH = ''
 SAVE_PATH = ''
