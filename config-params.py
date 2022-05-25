@@ -15,7 +15,7 @@ SAMPLER = 'NSGAII'
 N_TRIALS = 100 # number of optimization trials
 STUDY_NAME = "example_optimization"
 STORAGE_NAME = "sqlite:///{}.db".format(STUDY_NAME) # database to store study information
-LOAD = False #load study if already exists (if false, will continue from checkpoint)
+LOAD = False #load study if already exists (if true, will continue from checkpoint)
 
 
 ## VARIABLES TO OPTIMIZE
@@ -40,9 +40,8 @@ VARIABLES = {
 
 }
 
-USE_CONSTRAINTS = True
-
-LOAD_PATH = ''
-SAVE_PATH = ''
+USE_CONSTRAINTS = True #true to enable constraints
 
 ## ADD OTHER PARAMETERS HERE
+LOAD_PATH = ''
+SAVE_PATH = ''
