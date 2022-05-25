@@ -12,7 +12,7 @@ multi-objective samplers: 'NSGAII', 'MOTPE'
 '''
 SAMPLER = 'NSGAII'
 
-N_TRIALS = 500 # number of optimization trials
+N_TRIALS = 100 # number of optimization trials
 STUDY_NAME = "example_optimization"
 STORAGE_NAME = "sqlite:///{}.db".format(STUDY_NAME) # database to store study information
 LOAD = False #load study if already exists (if false, will continue from checkpoint)
@@ -42,7 +42,7 @@ VARIABLES = {
 
 
 
-USE_CONSTRAINTS = False
+USE_CONSTRAINTS = True
 
 """ Not implemented yet
 CONSTRAINTS = {
