@@ -7,7 +7,7 @@
 import optuna
 
 class Optimizer:
-    def __init__(self, cfg, objectives):
+    def __init__(self, cfg, objectives, constraints = None):
 
         assert len(objectives) > 0
 
@@ -15,18 +15,28 @@ class Optimizer:
 
         self.study_name = cfg.STUDY_NAME
         self.objectives = objectives
+        self.constraints = constraints
         self.n_objectives = len(objectives)
+
+        if cfg.USE_CONSTRAINTS and cfg.SAMPLER != 'NSGAII':
+            raise Exception("Constraints are not suported with specified sampler")
 
         if len(objectives) > 1:
             if cfg.SAMPLER == 'NSGAII':
-                self.sampler = optuna.samplers.NSGAIISampler()
+                if self.constraints:
+                    self.sampler = optuna.samplers.NSGAIISampler(constraints_func = self.constraints_func)
+                else:
+                    self.sampler = optuna.samplers.NSGAIISampler()
 
             elif cfg.SAMPLER == 'MOTPE':
                 self.sampler = optuna.samplers.MOTPESampler()
 
             else:
                 print("Swiching to NSGA-II sampler for multi-objective optimization")
-                self.sampler = optuna.samplers.NSGAIISampler()
+                if self.constraints:
+                    self.sampler = optuna.samplers.NSGAIISampler(constraints_func = self.constraints_func)
+                else:
+                    self.sampler = optuna.samplers.NSGAIISampler()
         
         else:  #(len(objectives) == 1)
             if cfg.SAMPLER == 'GRID':
@@ -46,7 +56,7 @@ class Optimizer:
                 self.sampler = optuna.samplers.TPESampler()
 
         if cfg.STORAGE_NAME:
-            self.study = optuna.create_study(study_name=cfg.STUDY_NAME, storage=cfg.STORAGE_NAME, load_if_exists=True, directions=objectives.directions, sampler = self.sampler)
+            self.study = optuna.create_study(study_name=cfg.STUDY_NAME, storage=cfg.STORAGE_NAME, load_if_exists=cfg.LOAD, directions=objectives.directions, sampler = self.sampler)
         
         else:
             self.study = optuna.create_study(study_name=cfg.STUDY_NAME, directions=objectives.directions, sampler = self.sampler)
@@ -79,17 +89,25 @@ class Optimizer:
         except:
             return None
     
-    def objective(self, trial):
+    def objectives_func(self, trial):
         #print(trial)
-        params = self.__suggest_variables(trial)
+        self.params = self.__suggest_variables(trial)
 
-        if not params:
+        if not self.params:
             raise(Exception("Error while suggesting variables, probably from config file?"))
+
+        #Save constraint values in trial meta data
+        if self.constraints:
+            cstrs = self.constraints.evaluate(self.cfg, self.params)
+            trial.set_user_attr("constraint", [cstr for cstr in cstrs])
         
-        return self.objectives.evaluate(self.cfg, params)
+        return self.objectives.evaluate(self.cfg, self.params)
+    
+    def constraints_func(self, trial):
+        return trial.user_attrs["constraint"] #self.constraints.evaluate(self.cfg, self.params)
     
     def optimize(self, n_trials = 500):
-        self.study.optimize(self.objective, n_trials)
+        self.study.optimize(self.objectives_func, n_trials)
 
     def show_pareto(self):
         trials = sorted(self.study.best_trials, key=lambda t: t.values)
@@ -103,6 +121,9 @@ class Optimizer:
                     print(f",", end='')
                 else:
                     print()
+            if self.constraints:
+                print("    Constraint values: {}".format(trial.user_attrs["constraint"]))
+                
             print("    Params: {}".format(trial.params))
             print(" ----------------------- ")
     

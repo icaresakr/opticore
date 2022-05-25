@@ -11,6 +11,7 @@ import sys
 import utils.q_common as qc
 import objectives as obj
 import optimizer as opt
+import constraints as cstr
 
 def load_config(cfg_file):
     cfg_file = qc.forward_slashify(cfg_file)
@@ -30,9 +31,15 @@ if __name__ == "__main__":
 
     objectives = obj.Objectives()
 
+    constraints = None
+    
+    if cfg.USE_CONSTRAINTS:
+        constraints = cstr.Constraints()
+
     optimizer = opt.Optimizer(
                     cfg = cfg, 
-                    objectives = objectives
+                    objectives = objectives,
+                    constraints = constraints
                     )
 
     optimizer.optimize(n_trials = cfg.N_TRIALS)

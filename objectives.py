@@ -24,7 +24,7 @@ class Objectives:
             #Do something
             #e.g.
             obj1 = params['INT_VAR']**2 + params['FLOAT_VAR']
-            obj2 =  params['INT_VAR'] * params['FLOAT_VAR']**2 * (params['CATEGORICAL_VAR'] == 'None')
+            obj2 =  params['INT_VAR'] * params['FLOAT_VAR']**2
 
             return (obj1, obj2)
 
